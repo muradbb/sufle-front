@@ -4,7 +4,7 @@ export default [
    {
       path: '/home',
       name: 'home',
-      component: () => import('../pages/home'),
+      component: () => import('../pages/home/index'),
       meta: {
          isLogin: true
       }
@@ -17,12 +17,12 @@ export default [
          isLogin: true
       }
    },
-   
+
    {
       path: '/auth/login',
       name: 'auth.login',
       component: () => import('../pages/auth/login'),
-   },
+   }
 
 
 ]

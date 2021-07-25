@@ -9,10 +9,10 @@
                     <i class="fas fa-laugh-wink"></i>
                 </div>
             </a>
-            
+
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-            
+
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <router-link
@@ -26,6 +26,7 @@
                 <span class="ml-2">{{ menu.name }}</span>
                 </router-link>
             </li>
+
             <hr class="sidebar-divider my-0">
 
             <li class="nav-item active">
@@ -69,9 +70,9 @@ export default {
                 }
             })
         },
-        
+
     }
-}        
+}
 </script>
 
 <style scoped>
