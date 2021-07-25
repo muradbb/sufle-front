@@ -1,4 +1,4 @@
-# empati-vue
+# sufle-front
 
 > A Vue.js project
 
