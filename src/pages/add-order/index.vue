@@ -40,7 +40,7 @@
                           <div class="form-group">
                              <label for="hour">Sifariş tipi<span class="i-input">*</span></label>
 
-                             <select v-model.lazy="$v.form.type.$model" @change="onChange($event)" class="form-control" id="type">
+                             <select v-model.lazy="$v.type.$model" @change="onChange($event)" class="form-control" id="type">
                                 <option>Tort</option>
                                 <option>Avropa tortu</option>
                                 <option>Marçipanlı tort</option>
@@ -48,7 +48,7 @@
                                 <option>Paxlava</option>
                                 <option>Qoğal</option>
                              </select>
-                             <div v-if="$v.form.type.$error">
+                             <div v-if="$v.type.$error">
                                 <div
                                    class="form-error mt-2"
                                    v-if="!$v.form.type.required">
@@ -177,11 +177,11 @@ export default {
     data() {
         return {
            typeNotChosen:true,
-           entityType:null,
+           type:null,
             form: {
                 name: null,
                 lastName: null,
-                type:null,
+                entityType:null,
                 phoneNumber: null,
                 orderDate: null,
                 orderTime: null,
@@ -193,6 +193,9 @@ export default {
       }
     },
     methods: {
+       logger(){
+          console.log(this.form);
+       },
        onChange(event) {
 
           switch (event.target.value) {
@@ -217,6 +220,7 @@ export default {
           }
           console.log(this.entityType)
           this.typeNotChosen=false
+          this.form.type=this.entityType;
        },
 
       disabledBeforeTodayAndAfterAWeek(date) {
@@ -234,15 +238,14 @@ export default {
                 orderTime: null,
                 notes: null,
                 orderCode:null,
-                amount:null
+                amount:null,
+                entityType: null
             }
         },
         checkOptions(query){
             Order.check(query).then(res => {
                 if(res.status === 200){
                     this.options = res.data.response.availability;
-                    // var current = new Date();
-                    // console.log(query);
                 }
                 var s=""
                 var current = new Date();
@@ -300,6 +303,7 @@ export default {
         }
     },
     validations: {
+       type:{required},
         form: {
             name: {required},
             lastName: {required},
@@ -307,7 +311,7 @@ export default {
             orderDate: {required},
             orderTime: {required},
             orderCode:{required},
-            type: {required},
+            entityType:{required},
             amount:{required}
         }
     }
