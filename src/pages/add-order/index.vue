@@ -112,16 +112,17 @@
                             <div class="form-group">
                                 <label for="hour">Sifariş saatı<span class="i-input">*</span></label>
 
-                                <select v-model.lazy="$v.form.orderTime.$model" class="form-control" id="hour" :disabled="typeNotChosen">
-                                    <option :disabled='options[1]' :class="{'bg-red': options[1] }">11:00</option>
-                                    <option :disabled='options[2]' :class="{'bg-red': options[2] }">12:00</option>
-                                    <option :disabled='options[3]' :class="{'bg-red': options[3] }">13:00</option>
-                                    <option :disabled='options[4]' :class="{'bg-red': options[4] }">14:00</option>
-                                    <option :disabled='options[5]' :class="{'bg-red': options[5] }">15:00</option>
-                                    <option :disabled='options[6]' :class="{'bg-red': options[6] }">16:00</option>
-                                    <option :disabled='options[7]' :class="{'bg-red': options[7] }">17:00</option>
-                                    <option :disabled='options[8]' :class="{'bg-red': options[8] }">18:00</option>
-                                    <option :disabled='options[9]' :class="{'bg-red': options[9] }">19:00</option>
+                                <select v-model.lazy="$v.form.orderTime.$model" class="form-control" id="hour" :disabled="typeNotChosen || dateOnlyTypes">
+                                   <option v-for="time in times" :value="time">{{time}}</option>
+<!--                                    <option :disabled='options[1]' :class="{'bg-red': options[1] }">11:00</option>-->
+<!--                                    <option :disabled='options[2]' :class="{'bg-red': options[2] }">12:00</option>-->
+<!--                                    <option :disabled='options[3]' :class="{'bg-red': options[3] }">13:00</option>-->
+<!--                                    <option :disabled='options[4]' :class="{'bg-red': options[4] }">14:00</option>-->
+<!--                                    <option :disabled='options[5]' :class="{'bg-red': options[5] }">15:00</option>-->
+<!--                                    <option :disabled='options[6]' :class="{'bg-red': options[6] }">16:00</option>-->
+<!--                                    <option :disabled='options[7]' :class="{'bg-red': options[7] }">17:00</option>-->
+<!--                                    <option :disabled='options[8]' :class="{'bg-red': options[8] }">18:00</option>-->
+<!--                                    <option :disabled='options[9]' :class="{'bg-red': options[9] }">19:00</option>-->
                                 </select>
                                 <div v-if="$v.form.orderTime.$error">
                                         <div
@@ -176,8 +177,10 @@ export default {
     components: { DatePicker },
     data() {
         return {
+           dateOnlyTypes:false,
            typeNotChosen:true,
            type:null,
+           times:null,
             form: {
                 name: null,
                 lastName: null,
@@ -197,29 +200,38 @@ export default {
           console.log(this.form);
        },
        onChange(event) {
-
           switch (event.target.value) {
              case 'Tort':
+                this.dateOnlyTypes=false;
                 this.entityType='tort';
+                this.times=['11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00']
                 break;
              case 'Avropa tortu':
+                this.dateOnlyTypes=false;
+                this.times=['09:00–13:00','13:00-17:00','17:00-21:00']
                 this.entityType='atort';
                 break;
              case 'Marçipanlı tort':
+                this.dateOnlyTypes=false;
+                this.times=['12:00-16:00','16:00-21:00']
                 this.entityType='mtort';
                 break;
              case 'Şəkərbura':
+                this.dateOnlyTypes=true;
                 this.entityType='sekerbura'
                 break;
              case 'Paxlava':
+                this.dateOnlyTypes=true;
                 this.entityType='paxlava'
                 break;
              case 'Qoğal':
+                this.dateOnlyTypes=false;
+                this.times=['09:00-13:00','13:00-19:00']
                 this.entityType='qogal'
                 break;
           }
-          console.log(this.entityType)
           this.typeNotChosen=false
+         // console.log(this.entityType)
           this.form.type=this.entityType;
        },
 
