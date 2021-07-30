@@ -117,17 +117,8 @@
                         <label for="hour">Sifariş saatı<span class="i-input">*</span></label>
 
                         <select v-model.lazy="$v.form.orderTime.$model" class="form-control" id="hour"
-                                :disabled="typeNotChosen || dateOnlyTypes">
+                                :disabled="typeNotChosen || dateOnlyTypes" @change="timeFixer($event)">
                            <option v-for="time in times" :value="time">{{ time }}</option>
-                           <!--                                    <option :disabled='options[1]' :class="{'bg-red': options[1] }">11:00</option>-->
-                           <!--                                    <option :disabled='options[2]' :class="{'bg-red': options[2] }">12:00</option>-->
-                           <!--                                    <option :disabled='options[3]' :class="{'bg-red': options[3] }">13:00</option>-->
-                           <!--                                    <option :disabled='options[4]' :class="{'bg-red': options[4] }">14:00</option>-->
-                           <!--                                    <option :disabled='options[5]' :class="{'bg-red': options[5] }">15:00</option>-->
-                           <!--                                    <option :disabled='options[6]' :class="{'bg-red': options[6] }">16:00</option>-->
-                           <!--                                    <option :disabled='options[7]' :class="{'bg-red': options[7] }">17:00</option>-->
-                           <!--                                    <option :disabled='options[8]' :class="{'bg-red': options[8] }">18:00</option>-->
-                           <!--                                    <option :disabled='options[9]' :class="{'bg-red': options[9] }">19:00</option>-->
                         </select>
                         <div v-if="$v.form.orderTime.$error">
                            <div
@@ -205,6 +196,29 @@ export default {
       logger() {
          console.log(this.form);
       },
+      timeFixer(event){
+         switch (event.target.value){
+            case '09:00–13:00':
+               this.orderTime='10:00';
+               break;
+            case  '12:00-16:00':
+               this.orderTime='14:00';
+               break;
+            case '16:00-21:00':
+               this.orderTime='17:00';
+               break
+            case '13:00-17:00':
+               this.orderTime='15:00';
+               break
+            case '17:00-21:00':
+               this.orderTime='18:00';
+               break
+            case '13:00-19:00':
+               this.orderTime='15:00';
+               break
+         }
+         console.log(this.orderTime);
+      },
       onChange(event) {
          switch (event.target.value) {
             case 'Tort':
@@ -214,12 +228,12 @@ export default {
                break;
             case 'Avropa tortu':
                this.dateOnlyTypes = false;
-               this.times = ['09:00–13:00', '13:00-17:00', '17:00-21:00']
+               this.times = ['12:00-16:00', '16:00-21:00']
                this.entityType = 'atort';
                break;
             case 'Marçipanlı tort':
                this.dateOnlyTypes = false;
-               this.times = ['12:00-16:00', '16:00-21:00']
+               this.times = ['09:00–13:00', '13:00-17:00', '17:00-21:00']
                this.entityType = 'mtort';
                break;
             case 'Şəkərbura':
@@ -243,11 +257,11 @@ export default {
          const type = this.entityType;
          const today = new Date();
          today.setHours(0, 0, 0, 0);
-         const timer=new Date();
+         const timer = new Date();
          if (type === 'sekerbura' || type === 'paxlava') {
             today.setDate(today.getDate() + 2);
-         }else if(type==='qogal' && timer.getHours()>=15){
-            today.setDate(today.getDate()+1);
+         } else if (type === 'qogal' && timer.getHours() >= 15) {
+            today.setDate(today.getDate() + 1);
          }
 
          return date < today;
@@ -267,7 +281,7 @@ export default {
       },
       checkOptions(query) {
          //we set the type of the entity here
-         query+='&type='+this.type;
+         query += '&type=' + this.type;
          Order.check(query).then(res => {
             if (res.status === 200) {
                this.options = res.data.response.availability;
