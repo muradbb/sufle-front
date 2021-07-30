@@ -9,6 +9,6 @@ export default {
       return AppService.post(`/requestTime/insert`, params)
    },
    check: (params) => {
-      return AppService.get(`/cakeLimit/selectByDate?date=${params}`);
+      return AppService.get(`/cakeLimit/selectByDateAndType?date=${params}`);
    }
 }
