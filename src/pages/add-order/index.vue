@@ -237,7 +237,6 @@ export default {
                break;
          }
          this.typeNotChosen = false
-         // console.log(this.entityType)
          this.form.type = this.entityType;
       },
       dateDisabler(date) {
@@ -245,7 +244,6 @@ export default {
          const today = new Date();
          today.setHours(0, 0, 0, 0);
          const timer=new Date();
-         console.log(timer.getHours())
          if (type === 'sekerbura' || type === 'paxlava') {
             today.setDate(today.getDate() + 2);
          }else if(type==='qogal' && timer.getHours()>=15){
@@ -268,6 +266,8 @@ export default {
          }
       },
       checkOptions(query) {
+         //we set the type of the entity here
+         query+='&type='+this.type;
          Order.check(query).then(res => {
             if (res.status === 200) {
                this.options = res.data.response.availability;
@@ -276,7 +276,6 @@ export default {
             var current = new Date();
             s = s + (current.getDate() < 10 ? '0' + current.getDate() : current.getDate()) + "-" + ((current.getMonth() + 1) < 10 ? '0' + (current.getMonth() + 1) : (current.getMonth() + 1)) + "-" + current.getFullYear()
             if (s === query) {
-               //  console.log(current.getHours())
                switch (current.getHours()) {
                   case 14:
                      this.options = [true, true, true, true, true, true, true, true, true, true];
@@ -295,12 +294,15 @@ export default {
          })
       },
       post() {
+         console.log('pressed');
+         console.log(!this.$v.form.$invalid)
          this.$v.form.$touch();
          if (!this.$v.form.$invalid) {
             let loading = this.$loading.show();
+            console.log(this.form)
             Order.create(this.form)
                .then(res => {
-                  console.log(res);
+                  //console.log(res);
                   if (res.status === 200) {
                      loading.hide();
                      Swal.fire({
@@ -336,7 +338,7 @@ export default {
          orderDate: {required},
          orderTime: {required},
          orderCode: {required},
-         entityType: {required},
+         //entityType: {required},
          amount: {required}
       }
    }
