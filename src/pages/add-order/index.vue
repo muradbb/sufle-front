@@ -118,7 +118,8 @@
 
                         <select v-model.lazy="$v.form.orderTime.$model" class="form-control" id="hour"
                                 :disabled="typeNotChosen || dateOnlyTypes" @change="timeFixer($event)">
-                           <option v-for="time in times" :value="time">{{ time }}</option>
+                           <option v-for="(time,index) in times" :value="time"  :class="{'bg-red': options[index]}" :disabled='options[index]'>{{time}}</option>
+                           <!---->
                         </select>
                         <div v-if="$v.form.orderTime.$error">
                            <div
@@ -193,31 +194,28 @@ export default {
       }
    },
    methods: {
-      logger() {
-         console.log(this.form);
-      },
       timeFixer(event){
          switch (event.target.value){
-            case '09:00–13:00':
-               this.orderTime='10:00';
-               break;
+            case '09:00-13:00':
+               this.form.orderTime='10:00';
+               break
             case  '12:00-16:00':
-               this.orderTime='14:00';
-               break;
+               this.form.orderTime='14:00';
+               break
             case '16:00-21:00':
-               this.orderTime='17:00';
+               this.form.orderTime='17:00';
                break
             case '13:00-17:00':
-               this.orderTime='15:00';
+               this.form.orderTime='15:00';
                break
             case '17:00-21:00':
-               this.orderTime='18:00';
+               this.form.orderTime='18:00';
                break
             case '13:00-19:00':
-               this.orderTime='15:00';
+               this.form.orderTime='15:00';
                break
          }
-         console.log(this.orderTime);
+         console.log(this.form.orderTime);
       },
       onChange(event) {
          switch (event.target.value) {
@@ -281,7 +279,7 @@ export default {
       },
       checkOptions(query) {
          //we set the type of the entity here
-         query += '&type=' + this.type;
+         query += '&type=' + this.entityType;
          Order.check(query).then(res => {
             if (res.status === 200) {
                this.options = res.data.response.availability;
@@ -308,12 +306,16 @@ export default {
          })
       },
       post() {
-         console.log('pressed');
-         console.log(!this.$v.form.$invalid)
+       //  console.log('pressed');
+       //  console.log(!this.$v.form.$invalid)
+         console.log(this.type!=='paxlava');
+         // if(this.type!=='paxlava'){
+         //    this.form.amount=Math.trunc(this.form.amount);
+         // }
          this.$v.form.$touch();
          if (!this.$v.form.$invalid) {
             let loading = this.$loading.show();
-            console.log(this.form)
+            //console.log(this.form)
             Order.create(this.form)
                .then(res => {
                   //console.log(res);
@@ -324,11 +326,11 @@ export default {
                         text: 'Sifariş əlavə edildi.'
                      });
                      this.$router.push({name: '/home'})
-                  } else if (res.response.status === 401) {
+                  } else {
                      loading.hide();
                      Swal.fire({
                         icon: "error",
-                        text: 'Seçilmiş tarixə sifariş doludur.'
+                        text: 'Xəta baş verdi. Zəhmət olmasa yenidən sınayın.'
                      });
                      this.formReset();
                   }
@@ -350,7 +352,18 @@ export default {
          lastName: {required},
          phoneNumber: {required},
          orderDate: {required},
-         orderTime: {required},
+         orderTime: {
+            required:(this.entityType==='qogal' || this.entityType==='sekerbura')
+               //(
+               //function (){
+            //    if(this.entityType==='paxlava' || this.entityType==='qogal'){
+            //       return false;
+            //    }else{
+            //       return true;
+            //    }
+            // }
+         //   )
+         },
          orderCode: {required},
          //entityType: {required},
          amount: {required}
