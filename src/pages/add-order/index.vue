@@ -134,7 +134,7 @@
                   <div class="col-lg-4 col-md-12">
                      <div class="form-group">
                         <label for="amount">Say/Çəki<span class="i-input">*</span></label>
-                        <input v-model.lazy="$v.form.amount.$model" type="text" class="form-control" id="amount"
+                        <input v-model.lazy="$v.form.amount.$model" type="text" class="form-control" id="amount" :disabled="noAmount"
                                placeholder="Say/çəkini əlavə edin">
                         <div v-if="$v.form.amount.$error">
                            <div
@@ -176,6 +176,7 @@ export default {
    components: {DatePicker},
    data() {
       return {
+         noAmount:false,
          dateOnlyTypes: false,
          typeNotChosen: true,
          type: null,
@@ -225,16 +226,22 @@ export default {
       onChange(event) {
          switch (event.target.value) {
             case 'Tort':
+               this.noAmount=true;
+               this.form.amount=1;
                this.dateOnlyTypes = false;
                this.entityType = 'tort';
                this.times = ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00']
                break;
             case 'Avropa tortu':
+               this.noAmount=true;
+               this.form.amount=1;
                this.dateOnlyTypes = false;
                this.times = ['12:00-16:00', '16:00-21:00']
                this.entityType = 'atort';
                break;
             case 'Marçipanlı tort':
+               this.noAmount=true;
+               this.form.amount=1;
                this.dateOnlyTypes = false;
                this.times = ['09:00–13:00', '13:00-17:00', '17:00-21:00']
                this.entityType = 'mtort';

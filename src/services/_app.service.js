@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 let headers;
-//const baseURL = 'http://104.248.39.252:5000/sufle/v1';
-const baseURL = 'http://localhost:5000/sufle/v1';
+const baseURL = 'http://104.248.39.252:5000/sufle/v1';
+//const baseURL = 'http://localhost:5000/sufle/v1';
 
 
 try {
