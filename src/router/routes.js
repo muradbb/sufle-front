@@ -17,11 +17,19 @@ export default [
          isLogin: true
       }
    },
-
    {
       path: '/auth/login',
       name: 'auth.login',
       component: () => import('../pages/auth/login'),
+   },
+   {
+      path: '/archive',
+      name: 'archive',
+      component:()=>import('../pages/home/archive'),
+      meta: {
+         isLogin: true
+      }
+
    }
 
 

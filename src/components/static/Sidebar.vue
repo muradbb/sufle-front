@@ -16,15 +16,16 @@
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
                 <router-link
-                    active-class="active"
-                    :to="{ path: menu.route }"
                     v-for="(menu, index) in menus"
+                    :to="{
+                       path: menu.route }"
                     :key="index"
                     class="nav-link"
                 >
-                <i class="fas fa-fw fa-tachometer-alt"></i>
+<!--                <icon :class="menu.icon"></icon>-->
                 <span class="ml-2">{{ menu.name }}</span>
                 </router-link>
+
             </li>
 
             <hr class="sidebar-divider my-0">
@@ -55,6 +56,9 @@ export default {
       };
    },
    methods: {
+      clicker(){
+        console.log('asd');
+      },
       logout() {
 
           Swal.fire({
@@ -78,5 +82,8 @@ export default {
 <style scoped>
 .nav-link {
     cursor: pointer;
+}
+.router-link-active{
+   background:grey;
 }
 </style>

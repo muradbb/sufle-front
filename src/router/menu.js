@@ -4,6 +4,11 @@ export default [
    {
       name: 'Ana səhifə',
       route: '/home',
-      icon: 'icon-dashboard',
+     //icon: 'fal fa-home'
+   },
+   {
+      name:'Arxiv',
+      route: '/archive',
+      // icon:"fas fa-fw fa-tachometer-alt"
    }
 ]
