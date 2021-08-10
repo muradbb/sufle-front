@@ -201,30 +201,22 @@ export default {
          if(this.entityType==='tort'){
             this.preciseTime=event.target.value;
          }else{
-            if (event.target.value === '09:00–13:00') {
-               this.preciseTime = '10:00';
-            }
-            switch (event.target.value) {
-               case '09:00–13:00':
-                  this.preciseTime = '10:00';
-                  break
-               case  '12:00-16:00':
-                  this.preciseTime = '14:00';
-                  break
-               case '16:00-21:00':
-                  this.preciseTime = '17:00';
-                  break
-               case '13:00-17:00':
-                  this.preciseTime = '15:00';
-                  break
-               case '17:00-21:00':
-                  this.preciseTime = '18:00';
-                  break
-               case '13:00-19:00':
-                  this.preciseTime = '15:00';
-                  break
-            }
+            const timeMap = new Map();
+            //aTort  ['12:00-16:00', '16:00-21:00'] 14 17
+            timeMap.set('12:00-16:00','14:00');
+            timeMap.set('16:00-21:00','17:00');
+            //mTort  ['12:00–14:00', '14:00-16:00', '16:00-18:00'] 13 15 18
+            timeMap.set('12:00–14:00','13:00');
+            timeMap.set('14:00-16:00','15:00');
+            timeMap.set('16:00-18:00','18:00');
+            //qogal ['09:00-13:00', '13:00-19:00'] 10 15
+            timeMap.set('09:00-13:00','10:00');
+            timeMap.set('13:00-19:00','15:00');
+            this.preciseTime=timeMap.get(event.target.value);
+            // this.form.orderTime=this.preciseTime;
+            // this.orderTime=this.preciseTime;
          }
+         console.log(this.preciseTime);
          console.log(this.form.orderTime);
       },
       onChange(event) {
@@ -247,7 +239,9 @@ export default {
                this.noAmount=true;
                this.form.amount=1;
                this.dateOnlyTypes = false;
-               this.times = ['09:00–13:00', '13:00-17:00', '17:00-21:00']
+               // this.times = ['09:00–13:00', '13:00-17:00', '17:00-21:00']
+               this.times = ['12:00–14:00', '14:00-16:00', '16:00-18:00']
+
                this.entityType = 'mtort';
                break;
             case 'Şəkərbura':
