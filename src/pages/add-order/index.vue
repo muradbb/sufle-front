@@ -198,28 +198,32 @@ export default {
    },
    methods: {
       timeFixer(event) {
-         if (event.target.value === '09:00–13:00') {
-            this.preciseTime = '10:00';
-         }
-         switch (event.target.value) {
-            case '09:00–13:00':
+         if(this.entityType==='tort'){
+            this.preciseTime=event.target.value;
+         }else{
+            if (event.target.value === '09:00–13:00') {
                this.preciseTime = '10:00';
-               break
-            case  '12:00-16:00':
-               this.preciseTime = '14:00';
-               break
-            case '16:00-21:00':
-               this.preciseTime = '17:00';
-               break
-            case '13:00-17:00':
-               this.preciseTime = '15:00';
-               break
-            case '17:00-21:00':
-               this.preciseTime = '18:00';
-               break
-            case '13:00-19:00':
-               this.preciseTime = '15:00';
-               break
+            }
+            switch (event.target.value) {
+               case '09:00–13:00':
+                  this.preciseTime = '10:00';
+                  break
+               case  '12:00-16:00':
+                  this.preciseTime = '14:00';
+                  break
+               case '16:00-21:00':
+                  this.preciseTime = '17:00';
+                  break
+               case '13:00-17:00':
+                  this.preciseTime = '15:00';
+                  break
+               case '17:00-21:00':
+                  this.preciseTime = '18:00';
+                  break
+               case '13:00-19:00':
+                  this.preciseTime = '15:00';
+                  break
+            }
          }
          console.log(this.form.orderTime);
       },
