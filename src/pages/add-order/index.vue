@@ -165,7 +165,7 @@
 import DatePicker from 'vue2-datepicker';
 import 'vue2-datepicker/index.css';
 
-import {required} from "vuelidate/lib/validators";
+import {required,requiredIf} from "vuelidate/lib/validators";
 import Swal from "sweetalert2";
 
 import Order from "../../services/orders.service";
@@ -247,14 +247,17 @@ export default {
                this.entityType = 'mtort';
                break;
             case 'Şəkərbura':
+               this.noAmount=false;
                this.dateOnlyTypes = true;
                this.entityType = 'sekerbura'
                break;
             case 'Paxlava':
+               this.noAmount=false;
                this.dateOnlyTypes = true;
                this.entityType = 'paxlava'
                break;
             case 'Qoğal':
+               this.noAmount=false;
                this.dateOnlyTypes = false;
                this.times = ['09:00-13:00', '13:00-19:00']
                this.entityType = 'qogal'
@@ -362,16 +365,9 @@ export default {
          phoneNumber: {required},
          orderDate: {required},
          orderTime: {
-            required: (this.entityType === 'qogal' || this.entityType === 'sekerbura')
-            //(
-            //function (){
-            //    if(this.entityType==='paxlava' || this.entityType==='qogal'){
-            //       return false;
-            //    }else{
-            //       return true;
-            //    }
-            // }
-            //   )
+            required:requiredIf(function (){
+               return !(this.entityType === 'paxlava' || this.entityType === 'sekerbura')
+            })
          },
          orderCode: {required},
          //entityType: {required},
