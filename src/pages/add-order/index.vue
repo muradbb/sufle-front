@@ -198,7 +198,7 @@ export default {
    },
    methods: {
       timeFixer(event) {
-         if(this.entityType==='tort'){
+         if(this.entityType==='tort' || this.entityType==='mtort'){
             this.preciseTime=event.target.value;
          }else{
             const timeMap = new Map();
@@ -206,9 +206,9 @@ export default {
             timeMap.set('12:00-16:00','14:00');
             timeMap.set('16:00-21:00','17:00');
             //mTort  ['12:00–14:00', '14:00-16:00', '16:00-18:00'] 13 15 18
-            timeMap.set('12:00–14:00','13:00');
-            timeMap.set('14:00-16:00','15:00');
-            timeMap.set('16:00-18:00','18:00');
+            // timeMap.set('12:00–14:00','13:00');
+            // timeMap.set('14:00-16:00','15:00');
+            // timeMap.set('16:00-18:00','18:00');
             //qogal ['09:00-13:00', '13:00-19:00'] 10 15
             timeMap.set('09:00-13:00','10:00');
             timeMap.set('13:00-19:00','15:00');
@@ -240,8 +240,7 @@ export default {
                this.form.amount=1;
                this.dateOnlyTypes = false;
                // this.times = ['09:00–13:00', '13:00-17:00', '17:00-21:00']
-               this.times = ['12:00–14:00', '14:00-16:00', '16:00-18:00']
-
+               this.times = ['12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00']
                this.entityType = 'mtort';
                break;
             case 'Şəkərbura':
